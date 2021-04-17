@@ -47,12 +47,17 @@ var EVType;
     EVType[EVType["ConnectionReference"] = 100000004] = "ConnectionReference";
 })(EVType = exports.EVType || (exports.EVType = {}));
 var userId;
+var cache = {};
 var get = function (webApi, name, type) { return __awaiter(void 0, void 0, void 0, function () {
-    var filter, query, results, ev, defaultValue, valFound, ret;
+    var val, filter, query, results, ev, defaultValue, valFound, ret;
     var _a, _b;
     return __generator(this, function (_c) {
         switch (_c.label) {
             case 0:
+                val = cache[name];
+                if (val != null) {
+                    return [2 /*return*/, Promise.resolve(JSON.parse(val))];
+                }
                 filter = [
                     name !== undefined ? "schemaname eq '" + name + "'" : undefined,
                     type !== undefined ? "type eq " + type : undefined
@@ -77,6 +82,7 @@ var get = function (webApi, name, type) { return __awaiter(void 0, void 0, void 
                     defaultValue: defaultValue,
                     displayName: ev.displayname
                 };
+                cache[name] = JSON.stringify(ret);
                 /* todo
                 myStorage.setStorageValue(name, JSON.stringify(ret));
                 */

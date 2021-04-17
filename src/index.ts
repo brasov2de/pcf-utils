@@ -1,6 +1,1 @@
-import { EnvironmentVariable } from "./Utils/environmentVariable"
-
-
-export default {
-    EnvironmentVariable
-}
+export { EnvironmentVariable } from "./Utils/environmentVariable"
