@@ -1,7 +1,7 @@
-import {EnvironmentVariable, EVType, IEV}  from "./environmentVariable"
-import webApi from '../../__mocks__/webAPI';
+import {EnvironmentVariable, EVType}  from "../../Utils/environmentVariable";
+import webApi from '../../../__mocks__/webAPI';
 
-
+debugger;
 describe('String', () => {
     beforeEach(() => {
         webApi.retrieveMultipleRecords.mockClear();
@@ -13,8 +13,7 @@ describe('String', () => {
         webApi.retrieveMultipleRecords.mockResolvedValueOnce({ 
             entities: [{
             schemaname: name, 
-            defaultvalue : "ok default",              
-            displayname : "String1", 
+            defaultvalue : "ok default",                       
             environmentvariabledefinition_environmentvariablevalue: []                    
             }]
         }); 
@@ -22,7 +21,7 @@ describe('String', () => {
         const val = await EnvironmentVariable.getString(webApi, name);
         expect(webApi.retrieveMultipleRecords).toHaveBeenCalledTimes(1);
         expect(webApi.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition",`?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${EVType.String}`);      
-        expect(val).toBe("ok default");
+        expect(val).toBe("ok default");        
     });
     test('Value was set', async () => {     
         //setup
@@ -30,8 +29,7 @@ describe('String', () => {
         webApi.retrieveMultipleRecords.mockResolvedValueOnce({ 
             entities: [{
             schemaname: name, 
-            defaultvalue : "this was default",              
-            displayname : "String1", 
+            defaultvalue : "this was default",                      
             environmentvariabledefinition_environmentvariablevalue: [{value: "ok"}]                
             }]
         });
@@ -47,8 +45,7 @@ describe('String', () => {
         webApi.retrieveMultipleRecords.mockResolvedValueOnce({ 
             entities: [{
             schemaname: name, 
-            defaultvalue : "this was default",              
-            displayname : "String1", 
+            defaultvalue : "this was default",                       
             environmentvariabledefinition_environmentvariablevalue: [{value: "ok"}]                
             }]
         });
@@ -91,8 +88,7 @@ describe('JSON', () => {
         webApi.retrieveMultipleRecords.mockResolvedValueOnce({ 
             entities: [{
             schemaname: name, 
-            defaultvalue : '{"prop": "ok default"}',
-            displayname : "JSON1", 
+            defaultvalue : '{"prop": "ok default"}',      
             environmentvariabledefinition_environmentvariablevalue: []                    
             }]
         });
@@ -109,8 +105,7 @@ describe('JSON', () => {
         webApi.retrieveMultipleRecords.mockResolvedValueOnce({ 
             entities: [{
             schemaname: name, 
-            defaultvalue : '{"prop": "ok default"}',              
-            displayname : "JSON1", 
+            defaultvalue : '{"prop": "ok default"}',                    
             environmentvariabledefinition_environmentvariablevalue: [{value: '{"prop": "ok"}'}]                
             }]
         });
@@ -118,7 +113,7 @@ describe('JSON', () => {
         const val = await EnvironmentVariable.getJSON(webApi, name);
         expect(webApi.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition",`?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${EVType.JSON}`);        
         expect(val).toHaveProperty("prop");
-        expect(val?.prop).toBe("ok");
+        expect(val?.prop).toBe("ok");        
     });
   
     test('Solution name set', async () => {     
@@ -127,8 +122,7 @@ describe('JSON', () => {
         webApi.retrieveMultipleRecords.mockResolvedValueOnce({ 
             entities: [{
             schemaname: name, 
-            defaultvalue : '{"prop": "ok default"}',              
-            displayname : "Json1", 
+            defaultvalue : '{"prop": "ok default"}',                     
             environmentvariabledefinition_environmentvariablevalue: [{value: '{"prop": "ok"}'}]                
             }]
         });
@@ -163,8 +157,7 @@ describe('JSON', () => {
         webApi.retrieveMultipleRecords.mockResolvedValueOnce({ 
             entities: [{
             schemaname: name, 
-            defaultvalue : 'This is NOT a JSON and should throw an error',              
-            displayname : "Json1", 
+            defaultvalue : 'This is NOT a JSON and should throw an error',                      
             environmentvariabledefinition_environmentvariablevalue: []                
             }]
         });        
@@ -177,8 +170,7 @@ describe('JSON', () => {
         webApi.retrieveMultipleRecords.mockResolvedValueOnce({ 
             entities: [{
             schemaname: name, 
-            defaultvalue : "{'value': 'default value'}",              
-            displayname : "Json1", 
+            defaultvalue : "{'value': 'default value'}",                      
             environmentvariabledefinition_environmentvariablevalue: [{value: 'NOT a JSON, will throw an error'}]                
             }]
         });        
@@ -199,8 +191,7 @@ describe('JSON', () => {
         webApi.retrieveMultipleRecords.mockResolvedValueOnce({ 
             entities: [{
             schemaname: name, 
-            defaultvalue : '{"prop": "ok default"}',
-            displayname : "JSON1", 
+            defaultvalue : '{"prop": "ok default"}',      
             environmentvariabledefinition_environmentvariablevalue: []                    
             }]
         });
@@ -222,8 +213,7 @@ describe('JSON', () => {
         webApi.retrieveMultipleRecords.mockResolvedValueOnce({ 
             entities: [{
             schemaname: name1, 
-            defaultvalue : '{"prop": "ok default"}',
-            displayname : "JSON1", 
+            defaultvalue : '{"prop": "ok default"}',      
             environmentvariabledefinition_environmentvariablevalue: []                    
             }]
         });
@@ -238,8 +228,7 @@ describe('JSON', () => {
         webApi.retrieveMultipleRecords.mockResolvedValueOnce({ 
             entities: [{
             schemaname: name2, 
-            defaultvalue : '{"prop": "super value"}',
-            displayname : "JSON1", 
+            defaultvalue : '{"prop": "super value"}',     
             environmentvariabledefinition_environmentvariablevalue: []                    
             }]
         });
@@ -265,4 +254,26 @@ describe('JSON', () => {
       
 
     });
+});
+
+describe('generic get', () => {
+    beforeEach(() => {
+        webApi.retrieveMultipleRecords.mockClear();        
+        sessionStorage.clear();
+    });
+    test('as a string', async () => {
+        const name= "EnvVarGerericString";
+        const value = "Hello World String";
+        webApi.retrieveMultipleRecords.mockResolvedValueOnce({ 
+            entities: [{
+            schemaname: name, 
+            defaultvalue : value,                  
+            environmentvariabledefinition_environmentvariablevalue: []
+            }]
+        });
+        //test
+        const resp = await EnvironmentVariable.get(webApi, name, EVType.String);
+        expect(resp.value).toBe(value);        
+        expect(typeof resp.value).toBe("string");        
+    })
 });

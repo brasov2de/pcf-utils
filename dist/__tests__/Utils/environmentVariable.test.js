@@ -3,8 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const environmentVariable_1 = require("./environmentVariable");
-const webAPI_1 = __importDefault(require("../../__mocks__/webAPI"));
+const environmentVariable_1 = require("../../Utils/environmentVariable");
+const webAPI_1 = __importDefault(require("../../../__mocks__/webAPI"));
 debugger;
 describe('String', () => {
     beforeEach(() => {

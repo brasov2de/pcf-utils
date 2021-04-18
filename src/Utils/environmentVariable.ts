@@ -7,46 +7,48 @@ export interface IEnvVar_value{
 }
 
 export interface IEnvVar_definition{
-    defaultvalue ?: any;
-    displayname : string;
+    defaultvalue ?: any;  
     environmentvariabledefinition_environmentvariablevalue: IEnvVar_value[];
     environmentvariabledefinitionid ?: string;
     schemaname : string;
 }
 
-export interface IEV{
-    name : string;
-    value ?: string,
-    defaultValue ?: string,
-    displayName : string
+export interface IEV{  
+    value ?: string;
+    defaultValue ?: string;
 }
+
 
 export enum EVType{
     String = 100000000, 
     Number = 100000001, 
     Boolean = 100000002,
-    JSON = 100000003,
-    ConnectionReference=100000004
+    JSON = 100000003//,
+  //  ConnectionReference=100000004
 }
 
 let userId : string | undefined;
+
+export interface JSONValue {
+    [key: string]: string;
+}
 
 interface ICache {
     [key: string]: string;
 }
 const cache : ICache={}
 
-const get = async (webApi : any, name : string, type ?:EVType): Promise<IEV | undefined> => {    
-    /* todo const val = myStorage.getStorageValue(name);
+const get = async (webApi : any, name : string, type :EVType): Promise<IEV> => {    
+        
+   let val : string | null | undefined = cache[name]; 
+   if(val!=null){
+    return Promise.resolve(JSON.parse(val));
+}
+    val = sessionStorage.getItem(`[${STORAGE_PREFIX}] ${name}`);
 
     if(val!=null){
         return Promise.resolve(JSON.parse(val));
     }
-    */
-   const val = cache[name]; 
-   if(val!=null){
-    return Promise.resolve(JSON.parse(val));
-}
     
     const filter =  [
         name !== undefined ? `schemaname eq '${name}'` : undefined, 
@@ -61,20 +63,21 @@ const get = async (webApi : any, name : string, type ?:EVType): Promise<IEV | un
     //console.log(query);
     const results = await webApi.retrieveMultipleRecords("environmentvariabledefinition", query);
     const ev : IEnvVar_definition = results.entities[0];
-    if(ev==null) return undefined 
+    if(ev==null) return {
+        value : undefined, 
+        defaultValue : undefined
+    } 
     
     const defaultValue = ev.defaultvalue;        
     const valFound = ev.environmentvariabledefinition_environmentvariablevalue?.[0]?.value;        
-    const ret = {
-        name : ev.schemaname,
+    const ret = {        
         value : valFound ?? defaultValue,
-        defaultValue : defaultValue,
-        displayName : ev.displayname
+        defaultValue : defaultValue,      
     };
     cache[name] = JSON.stringify(ret);
-    /* todo
-    myStorage.setStorageValue(name, JSON.stringify(ret));
-    */
+    
+    sessionStorage.setItem(`[${STORAGE_PREFIX}] ${name}`, JSON.stringify(ret));
+    
     return ret;      
     
 }
@@ -84,10 +87,15 @@ const getString = async (webApi : any,  name: string): Promise<string | undefine
    return res?.value;
 }
 
-const getJSON = async (webApi : any,  name: string): Promise<any> => {
+const getJSON = async (webApi : any,  name: string): Promise<JSONValue|undefined> => {
     const res = await get(webApi, name?.toLowerCase(), EVType.JSON);
     const val = res?.value;
+    try{
     return val!=null ? JSON.parse(val) : undefined;
+    }
+    catch(e){
+        return undefined;
+    }
  }
 
 const getNumber = async (webApi : any,  name: string): Promise<Number | undefined> => {
@@ -103,6 +111,7 @@ const getNumber = async (webApi : any,  name: string): Promise<Number | undefine
  }
 
 export const EnvironmentVariable = {
+    get,
     getString, 
     getJSON, 
     getNumber, 

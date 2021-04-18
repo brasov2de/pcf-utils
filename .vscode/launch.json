@@ -1,0 +1,39 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Debug Jest Tests",
+        "type": "node",
+        "request": "launch",       
+        "runtimeArgs": [
+          "--inspect-brk",
+          "${workspaceRoot}/node_modules/jest/bin/jest.js",
+          "--runInBand"
+        ],
+        "console": "integratedTerminal", 
+        "cwd": "${workspaceFolder}/"
+        
+      }, 
+      {
+        "name": "Debug Jest Tests Old",
+        "type": "node",
+        "request": "launch",
+        "program": "${workspaceFolder}/index.ts",
+        "runtimeArgs": [
+          "--inspect-brk",
+          "${workspaceRoot}/node_modules/jest/bin/jest.js",
+          "--runInBand"
+        ],
+        "console": "integratedTerminal", 
+        "outFiles": ["${workspaceFolder}/dist/**/*.js"]
+      }, 
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Launch Program",
+        "program": "${workspaceFolder}/helloworld.ts",
+        "preLaunchTask": "tsc: build - tsconfig.json",
+        "outFiles": ["${workspaceFolder}/out/**/*.js"]
+      }
+    ]
+  }

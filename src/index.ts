@@ -1,1 +1,1 @@
-export { EnvironmentVariable } from "./Utils/environmentVariable"
+export  * from "./Utils/environmentVariable"
