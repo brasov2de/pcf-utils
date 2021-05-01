@@ -47,14 +47,18 @@ export interface JSONValue {
 interface ICache {
     [key: string]: string;
 }
-const cache : ICache={}
+let cache : ICache={}
 
-const get = async (webApi : any, name : string, type :EnvironmentVariableTypes): Promise<IEV> => {    
+export const clearCache = () => {
+    cache ={};
+}
+
+export const get = async (webApi : any, name : string, type :EnvironmentVariableTypes): Promise<IEV> => {    
         
    let val : string | null | undefined = cache[name]; 
    if(val!=null){
-    return Promise.resolve(JSON.parse(val));
-}
+        return Promise.resolve(JSON.parse(val));
+    }
     val = sessionStorage.getItem(`[${STORAGE_PREFIX}] ${name}`);
 
     if(val!=null){
@@ -93,12 +97,12 @@ const get = async (webApi : any, name : string, type :EnvironmentVariableTypes):
     
 }
 
-const getString = async (webApi : any,  name: string): Promise<EnvironmentVariableType<string>> => {
+export const getString = async (webApi : any,  name: string): Promise<EnvironmentVariableType<string>> => {
    const res = await get(webApi, name?.toLowerCase(), EnvironmentVariableTypes.String);
    return res?.value;
 }
 
-const getJSON = async (webApi : any,  name: string): Promise<EnvironmentVariableType<JSONValue>> => {
+export const getJSON = async (webApi : any,  name: string): Promise<EnvironmentVariableType<JSONValue>> => {
     const res = await get(webApi, name?.toLowerCase(), EnvironmentVariableTypes.JSON);
     const val = res?.value;
     try{
@@ -109,23 +113,16 @@ const getJSON = async (webApi : any,  name: string): Promise<EnvironmentVariable
     }
  }
 
-const getNumber = async (webApi : any,  name: string): Promise< EnvironmentVariableType<Number>> => {
+export const getNumber = async (webApi : any,  name: string): Promise< EnvironmentVariableType<Number>> => {
     const res = await get(webApi, name?.toLowerCase(), EnvironmentVariableTypes.Number);
     const val = res?.value;
     return val!=null ? Number.parseFloat(val) : undefined;
  }
 
- const getBoolean = async (webApi : any,  name: string): Promise< EnvironmentVariableType<Boolean>> => {
+ export const getBoolean = async (webApi : any,  name: string): Promise< EnvironmentVariableType<Boolean>> => {
     const res = await get(webApi, name?.toLowerCase(),  EnvironmentVariableTypes.Boolean);
     const val = res?.value;
     return val!=null ? new Boolean(val) : undefined;
  }
 
-export const EnvironmentVariable = {
-    get,
-    getString, 
-    getJSON, 
-    getNumber, 
-    getBoolean
-};
 

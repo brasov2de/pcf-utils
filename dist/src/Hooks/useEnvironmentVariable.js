@@ -34,23 +34,23 @@ const useEnvironmentVariable = (webAPI, name, type) => {
     const [envVar, setEnvVar] = React.useState();
     React.useEffect(() => {
         if (type === environmentVariable_1.EnvironmentVariableTypes.String) {
-            environmentVariable_1.EnvironmentVariable.getString(webAPI, name).then((val) => setEnvVar(val));
+            environmentVariable_1.getString(webAPI, name).then((val) => setEnvVar(val));
             return;
         }
         if (type === environmentVariable_1.EnvironmentVariableTypes.Number) {
-            environmentVariable_1.EnvironmentVariable.getNumber(webAPI, name).then((val) => setEnvVar(val));
+            environmentVariable_1.getNumber(webAPI, name).then((val) => setEnvVar(val));
             return;
         }
         if (type === environmentVariable_1.EnvironmentVariableTypes.Boolean) {
-            environmentVariable_1.EnvironmentVariable.getBoolean(webAPI, name).then((val) => setEnvVar(val));
+            environmentVariable_1.getBoolean(webAPI, name).then((val) => setEnvVar(val));
             return;
         }
         if (type === environmentVariable_1.EnvironmentVariableTypes.JSON) {
-            environmentVariable_1.EnvironmentVariable.getJSON(webAPI, name).then((val) => setEnvVar(val));
+            environmentVariable_1.getJSON(webAPI, name).then((val) => setEnvVar(val));
             return;
         }
         if (type === environmentVariable_1.EnvironmentVariableTypes.DataSource) {
-            environmentVariable_1.EnvironmentVariable.getString(webAPI, name).then((val) => setEnvVar(val));
+            environmentVariable_1.getString(webAPI, name).then((val) => setEnvVar(val));
             return;
         }
         /*    RequestsMapper[_type](webAPI, name).then((val) => setEnvVar(val as EnvironmentVariableType<T>));

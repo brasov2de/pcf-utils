@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EnvironmentVariable = exports.EnvironmentVariableTypes = void 0;
+exports.getBoolean = exports.getNumber = exports.getJSON = exports.getString = exports.get = exports.EnvironmentVariableTypes = void 0;
 const STORAGE_PREFIX = "Dianamics.EnvironmentVariables";
 var EnvironmentVariableTypes;
 (function (EnvironmentVariableTypes) {
@@ -49,12 +49,14 @@ const get = async (webApi, name, type) => {
     sessionStorage.setItem(`[${STORAGE_PREFIX}] ${name}`, JSON.stringify(ret));
     return ret;
 };
+exports.get = get;
 const getString = async (webApi, name) => {
-    const res = await get(webApi, name?.toLowerCase(), EnvironmentVariableTypes.String);
+    const res = await exports.get(webApi, name?.toLowerCase(), EnvironmentVariableTypes.String);
     return res?.value;
 };
+exports.getString = getString;
 const getJSON = async (webApi, name) => {
-    const res = await get(webApi, name?.toLowerCase(), EnvironmentVariableTypes.JSON);
+    const res = await exports.get(webApi, name?.toLowerCase(), EnvironmentVariableTypes.JSON);
     const val = res?.value;
     try {
         return val != null ? JSON.parse(val) : undefined;
@@ -63,20 +65,16 @@ const getJSON = async (webApi, name) => {
         return undefined;
     }
 };
+exports.getJSON = getJSON;
 const getNumber = async (webApi, name) => {
-    const res = await get(webApi, name?.toLowerCase(), EnvironmentVariableTypes.Number);
+    const res = await exports.get(webApi, name?.toLowerCase(), EnvironmentVariableTypes.Number);
     const val = res?.value;
     return val != null ? Number.parseFloat(val) : undefined;
 };
+exports.getNumber = getNumber;
 const getBoolean = async (webApi, name) => {
-    const res = await get(webApi, name?.toLowerCase(), EnvironmentVariableTypes.Boolean);
+    const res = await exports.get(webApi, name?.toLowerCase(), EnvironmentVariableTypes.Boolean);
     const val = res?.value;
     return val != null ? new Boolean(val) : undefined;
 };
-exports.EnvironmentVariable = {
-    get,
-    getString,
-    getJSON,
-    getNumber,
-    getBoolean
-};
+exports.getBoolean = getBoolean;

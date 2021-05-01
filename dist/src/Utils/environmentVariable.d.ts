@@ -23,10 +23,8 @@ export declare enum EnvironmentVariableTypes {
 export interface JSONValue {
     [key: string]: string;
 }
-export declare const EnvironmentVariable: {
-    get: (webApi: any, name: string, type: EnvironmentVariableTypes) => Promise<IEV>;
-    getString: (webApi: any, name: string) => Promise<EnvironmentVariableType<string>>;
-    getJSON: (webApi: any, name: string) => Promise<EnvironmentVariableType<JSONValue>>;
-    getNumber: (webApi: any, name: string) => Promise<EnvironmentVariableType<Number>>;
-    getBoolean: (webApi: any, name: string) => Promise<EnvironmentVariableType<Boolean>>;
-};
+export declare const get: (webApi: any, name: string, type: EnvironmentVariableTypes) => Promise<IEV>;
+export declare const getString: (webApi: any, name: string) => Promise<EnvironmentVariableType<string>>;
+export declare const getJSON: (webApi: any, name: string) => Promise<EnvironmentVariableType<JSONValue>>;
+export declare const getNumber: (webApi: any, name: string) => Promise<EnvironmentVariableType<Number>>;
+export declare const getBoolean: (webApi: any, name: string) => Promise<EnvironmentVariableType<Boolean>>;

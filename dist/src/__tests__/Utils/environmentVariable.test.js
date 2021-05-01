@@ -22,7 +22,7 @@ describe('String', () => {
                 }]
         });
         //test
-        const val = await environmentVariable_1.EnvironmentVariable.getString(webAPI_1.default, name);
+        const val = await environmentVariable_1.getString(webAPI_1.default, name);
         expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenCalledTimes(1);
         expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${environmentVariable_1.EnvironmentVariableTypes.String}`);
         expect(val).toBe("ok default");
@@ -38,7 +38,7 @@ describe('String', () => {
                 }]
         });
         //test
-        const val = await environmentVariable_1.EnvironmentVariable.getString(webAPI_1.default, name);
+        const val = await environmentVariable_1.getString(webAPI_1.default, name);
         expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${environmentVariable_1.EnvironmentVariableTypes.String}`);
         expect(val).toBe("ok");
     });
@@ -53,7 +53,7 @@ describe('String', () => {
                 }]
         });
         //test
-        const val = await environmentVariable_1.EnvironmentVariable.getString(webAPI_1.default, name);
+        const val = await environmentVariable_1.getString(webAPI_1.default, name);
         expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${environmentVariable_1.EnvironmentVariableTypes.String}`);
         expect(val).toBe("ok");
     });
@@ -64,7 +64,7 @@ describe('String', () => {
             entities: []
         });
         //test
-        const val = await environmentVariable_1.EnvironmentVariable.getString(webAPI_1.default, name);
+        const val = await environmentVariable_1.getString(webAPI_1.default, name);
         expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${environmentVariable_1.EnvironmentVariableTypes.String}`);
         expect(val).not.toBeDefined();
     });
@@ -73,7 +73,7 @@ describe('String', () => {
         const name = "string1";
         webAPI_1.default.retrieveMultipleRecords.mockRejectedValueOnce('Could not be resolved');
         //test
-        return expect(environmentVariable_1.EnvironmentVariable.getString(webAPI_1.default, name)).rejects.toEqual('Could not be resolved');
+        return expect(environmentVariable_1.getString(webAPI_1.default, name)).rejects.toEqual('Could not be resolved');
     });
 });
 describe('JSON', () => {
@@ -92,7 +92,7 @@ describe('JSON', () => {
                 }]
         });
         //test
-        const val = await environmentVariable_1.EnvironmentVariable.getJSON(webAPI_1.default, name);
+        const val = await environmentVariable_1.getJSON(webAPI_1.default, name);
         expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenCalledTimes(1);
         expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${environmentVariable_1.EnvironmentVariableTypes.JSON}`);
         expect(val).toHaveProperty("prop");
@@ -109,7 +109,7 @@ describe('JSON', () => {
                 }]
         });
         //test
-        const val = await environmentVariable_1.EnvironmentVariable.getJSON(webAPI_1.default, name);
+        const val = await environmentVariable_1.getJSON(webAPI_1.default, name);
         expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${environmentVariable_1.EnvironmentVariableTypes.JSON}`);
         expect(val).toHaveProperty("prop");
         expect(val?.prop).toBe("ok");
@@ -125,7 +125,7 @@ describe('JSON', () => {
                 }]
         });
         //test
-        const val = await environmentVariable_1.EnvironmentVariable.getJSON(webAPI_1.default, name);
+        const val = await environmentVariable_1.getJSON(webAPI_1.default, name);
         expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${environmentVariable_1.EnvironmentVariableTypes.JSON}`);
         expect(val).toHaveProperty("prop");
         expect(val?.prop).toBe("ok");
@@ -137,7 +137,7 @@ describe('JSON', () => {
             entities: []
         });
         //test
-        const val = await environmentVariable_1.EnvironmentVariable.getJSON(webAPI_1.default, name);
+        const val = await environmentVariable_1.getJSON(webAPI_1.default, name);
         expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${environmentVariable_1.EnvironmentVariableTypes.JSON}`);
         expect(val).not.toBeDefined();
     });
@@ -146,7 +146,7 @@ describe('JSON', () => {
         const name = "string1";
         webAPI_1.default.retrieveMultipleRecords.mockRejectedValueOnce('Could not be resolved');
         //test
-        return expect(environmentVariable_1.EnvironmentVariable.getJSON(webAPI_1.default, name)).rejects.toEqual('Could not be resolved');
+        return expect(environmentVariable_1.getJSON(webAPI_1.default, name)).rejects.toEqual('Could not be resolved');
     });
     test('defaultValue is not a JSON', () => {
         //setup
@@ -159,7 +159,7 @@ describe('JSON', () => {
                 }]
         });
         //test
-        return expect(environmentVariable_1.EnvironmentVariable.getJSON(webAPI_1.default, name)).rejects.toThrowError();
+        return expect(environmentVariable_1.getJSON(webAPI_1.default, name)).rejects.toThrowError();
     });
     test('value is not a JSON', () => {
         //setup
@@ -172,7 +172,7 @@ describe('JSON', () => {
                 }]
         });
         //test
-        return expect(environmentVariable_1.EnvironmentVariable.getJSON(webAPI_1.default, name)).rejects.toThrowError();
+        return expect(environmentVariable_1.getJSON(webAPI_1.default, name)).rejects.toThrowError();
     });
 });
 describe('JSON', () => {
@@ -191,12 +191,12 @@ describe('JSON', () => {
                 }]
         });
         //test
-        const val = await environmentVariable_1.EnvironmentVariable.getJSON(webAPI_1.default, name);
+        const val = await environmentVariable_1.getJSON(webAPI_1.default, name);
         expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenCalledTimes(1);
         expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name.toLowerCase()}' and type eq ${environmentVariable_1.EnvironmentVariableTypes.JSON}`);
         expect(val).toHaveProperty("prop");
         expect(val?.prop).toBe("ok default");
-        const val1 = await environmentVariable_1.EnvironmentVariable.getJSON(webAPI_1.default, name);
+        const val1 = await environmentVariable_1.getJSON(webAPI_1.default, name);
         expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenCalledTimes(1);
         expect(val1).toHaveProperty("prop");
         expect(val1?.prop).toBe("ok default");
@@ -212,7 +212,7 @@ describe('JSON', () => {
                 }]
         });
         //test
-        const val = await environmentVariable_1.EnvironmentVariable.getJSON(webAPI_1.default, name1);
+        const val = await environmentVariable_1.getJSON(webAPI_1.default, name1);
         expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenCalledTimes(1);
         expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name1.toLowerCase()}' and type eq ${environmentVariable_1.EnvironmentVariableTypes.JSON}`);
         expect(val).toHaveProperty("prop");
@@ -225,17 +225,17 @@ describe('JSON', () => {
                     environmentvariabledefinition_environmentvariablevalue: []
                 }]
         });
-        const val2 = await environmentVariable_1.EnvironmentVariable.getJSON(webAPI_1.default, name2);
+        const val2 = await environmentVariable_1.getJSON(webAPI_1.default, name2);
         expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenCalledTimes(2);
         expect(val2).toHaveProperty("prop");
         expect(val2?.prop).toBe("super value");
         //first from storage
-        const valStorage = await environmentVariable_1.EnvironmentVariable.getJSON(webAPI_1.default, name1);
+        const valStorage = await environmentVariable_1.getJSON(webAPI_1.default, name1);
         expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenCalledTimes(2); //no new request
         expect(valStorage).toHaveProperty("prop");
         expect(valStorage?.prop).toBe("ok default");
         //second from storage
-        const val2Storage = await environmentVariable_1.EnvironmentVariable.getJSON(webAPI_1.default, name2);
+        const val2Storage = await environmentVariable_1.getJSON(webAPI_1.default, name2);
         expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenCalledTimes(2); //no new request
         expect(val2Storage).toHaveProperty("prop");
         expect(val2Storage?.prop).toBe("super value");
@@ -257,7 +257,7 @@ describe('generic get', () => {
                 }]
         });
         //test
-        const resp = await environmentVariable_1.EnvironmentVariable.get(webAPI_1.default, name, environmentVariable_1.EnvironmentVariableTypes.String);
+        const resp = await environmentVariable_1.get(webAPI_1.default, name, environmentVariable_1.EnvironmentVariableTypes.String);
         expect(resp.value).toBe(value);
         expect(typeof resp.value).toBe("string");
     });
