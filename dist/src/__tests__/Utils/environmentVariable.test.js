@@ -24,7 +24,7 @@ describe('String', () => {
         //test
         const val = await environmentVariable_1.EnvironmentVariable.getString(webAPI_1.default, name);
         expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenCalledTimes(1);
-        expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${environmentVariable_1.EVType.String}`);
+        expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${environmentVariable_1.EnvironmentVariableTypes.String}`);
         expect(val).toBe("ok default");
     });
     test('Value was set', async () => {
@@ -39,7 +39,7 @@ describe('String', () => {
         });
         //test
         const val = await environmentVariable_1.EnvironmentVariable.getString(webAPI_1.default, name);
-        expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${environmentVariable_1.EVType.String}`);
+        expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${environmentVariable_1.EnvironmentVariableTypes.String}`);
         expect(val).toBe("ok");
     });
     test('Solution name set', async () => {
@@ -54,7 +54,7 @@ describe('String', () => {
         });
         //test
         const val = await environmentVariable_1.EnvironmentVariable.getString(webAPI_1.default, name);
-        expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${environmentVariable_1.EVType.String}`);
+        expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${environmentVariable_1.EnvironmentVariableTypes.String}`);
         expect(val).toBe("ok");
     });
     test('not found (solution name not found)', async () => {
@@ -65,7 +65,7 @@ describe('String', () => {
         });
         //test
         const val = await environmentVariable_1.EnvironmentVariable.getString(webAPI_1.default, name);
-        expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${environmentVariable_1.EVType.String}`);
+        expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${environmentVariable_1.EnvironmentVariableTypes.String}`);
         expect(val).not.toBeDefined();
     });
     test('raise an error', () => {
@@ -94,7 +94,7 @@ describe('JSON', () => {
         //test
         const val = await environmentVariable_1.EnvironmentVariable.getJSON(webAPI_1.default, name);
         expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenCalledTimes(1);
-        expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${environmentVariable_1.EVType.JSON}`);
+        expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${environmentVariable_1.EnvironmentVariableTypes.JSON}`);
         expect(val).toHaveProperty("prop");
         expect(val?.prop).toBe("ok default");
     });
@@ -110,7 +110,7 @@ describe('JSON', () => {
         });
         //test
         const val = await environmentVariable_1.EnvironmentVariable.getJSON(webAPI_1.default, name);
-        expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${environmentVariable_1.EVType.JSON}`);
+        expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${environmentVariable_1.EnvironmentVariableTypes.JSON}`);
         expect(val).toHaveProperty("prop");
         expect(val?.prop).toBe("ok");
     });
@@ -126,7 +126,7 @@ describe('JSON', () => {
         });
         //test
         const val = await environmentVariable_1.EnvironmentVariable.getJSON(webAPI_1.default, name);
-        expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${environmentVariable_1.EVType.JSON}`);
+        expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${environmentVariable_1.EnvironmentVariableTypes.JSON}`);
         expect(val).toHaveProperty("prop");
         expect(val?.prop).toBe("ok");
     });
@@ -138,7 +138,7 @@ describe('JSON', () => {
         });
         //test
         const val = await environmentVariable_1.EnvironmentVariable.getJSON(webAPI_1.default, name);
-        expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${environmentVariable_1.EVType.JSON}`);
+        expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name}' and type eq ${environmentVariable_1.EnvironmentVariableTypes.JSON}`);
         expect(val).not.toBeDefined();
     });
     test('raise an error', () => {
@@ -193,7 +193,7 @@ describe('JSON', () => {
         //test
         const val = await environmentVariable_1.EnvironmentVariable.getJSON(webAPI_1.default, name);
         expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenCalledTimes(1);
-        expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name.toLowerCase()}' and type eq ${environmentVariable_1.EVType.JSON}`);
+        expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name.toLowerCase()}' and type eq ${environmentVariable_1.EnvironmentVariableTypes.JSON}`);
         expect(val).toHaveProperty("prop");
         expect(val?.prop).toBe("ok default");
         const val1 = await environmentVariable_1.EnvironmentVariable.getJSON(webAPI_1.default, name);
@@ -214,7 +214,7 @@ describe('JSON', () => {
         //test
         const val = await environmentVariable_1.EnvironmentVariable.getJSON(webAPI_1.default, name1);
         expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenCalledTimes(1);
-        expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name1.toLowerCase()}' and type eq ${environmentVariable_1.EVType.JSON}`);
+        expect(webAPI_1.default.retrieveMultipleRecords).toHaveBeenLastCalledWith("environmentvariabledefinition", `?$select=schemaname,defaultvalue,displayname&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)&$filter=schemaname eq '${name1.toLowerCase()}' and type eq ${environmentVariable_1.EnvironmentVariableTypes.JSON}`);
         expect(val).toHaveProperty("prop");
         expect(val?.prop).toBe("ok default");
         const name2 = "AnotherEnvVar";
@@ -257,7 +257,7 @@ describe('generic get', () => {
                 }]
         });
         //test
-        const resp = await environmentVariable_1.EnvironmentVariable.get(webAPI_1.default, name, environmentVariable_1.EVType.String);
+        const resp = await environmentVariable_1.EnvironmentVariable.get(webAPI_1.default, name, environmentVariable_1.EnvironmentVariableTypes.String);
         expect(resp.value).toBe(value);
         expect(typeof resp.value).toBe("string");
     });

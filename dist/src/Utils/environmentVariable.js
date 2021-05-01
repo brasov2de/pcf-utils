@@ -1,15 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EnvironmentVariable = exports.EVType = void 0;
+exports.EnvironmentVariable = exports.EnvironmentVariableTypes = void 0;
 const STORAGE_PREFIX = "Dianamics.EnvironmentVariables";
-var EVType;
-(function (EVType) {
-    EVType[EVType["String"] = 100000000] = "String";
-    EVType[EVType["Number"] = 100000001] = "Number";
-    EVType[EVType["Boolean"] = 100000002] = "Boolean";
-    EVType[EVType["JSON"] = 100000003] = "JSON"; //,
-    //  ConnectionReference=100000004
-})(EVType = exports.EVType || (exports.EVType = {}));
+var EnvironmentVariableTypes;
+(function (EnvironmentVariableTypes) {
+    EnvironmentVariableTypes[EnvironmentVariableTypes["String"] = 100000000] = "String";
+    EnvironmentVariableTypes[EnvironmentVariableTypes["Number"] = 100000001] = "Number";
+    EnvironmentVariableTypes[EnvironmentVariableTypes["Boolean"] = 100000002] = "Boolean";
+    EnvironmentVariableTypes[EnvironmentVariableTypes["JSON"] = 100000003] = "JSON";
+    EnvironmentVariableTypes[EnvironmentVariableTypes["DataSource"] = 100000004] = "DataSource";
+})(EnvironmentVariableTypes = exports.EnvironmentVariableTypes || (exports.EnvironmentVariableTypes = {}));
 let userId;
 const cache = {};
 const get = async (webApi, name, type) => {
@@ -50,11 +50,11 @@ const get = async (webApi, name, type) => {
     return ret;
 };
 const getString = async (webApi, name) => {
-    const res = await get(webApi, name?.toLowerCase(), EVType.String);
+    const res = await get(webApi, name?.toLowerCase(), EnvironmentVariableTypes.String);
     return res?.value;
 };
 const getJSON = async (webApi, name) => {
-    const res = await get(webApi, name?.toLowerCase(), EVType.JSON);
+    const res = await get(webApi, name?.toLowerCase(), EnvironmentVariableTypes.JSON);
     const val = res?.value;
     try {
         return val != null ? JSON.parse(val) : undefined;
@@ -64,12 +64,12 @@ const getJSON = async (webApi, name) => {
     }
 };
 const getNumber = async (webApi, name) => {
-    const res = await get(webApi, name?.toLowerCase(), EVType.Number);
+    const res = await get(webApi, name?.toLowerCase(), EnvironmentVariableTypes.Number);
     const val = res?.value;
     return val != null ? Number.parseFloat(val) : undefined;
 };
 const getBoolean = async (webApi, name) => {
-    const res = await get(webApi, name?.toLowerCase(), EVType.Boolean);
+    const res = await get(webApi, name?.toLowerCase(), EnvironmentVariableTypes.Boolean);
     const val = res?.value;
     return val != null ? new Boolean(val) : undefined;
 };

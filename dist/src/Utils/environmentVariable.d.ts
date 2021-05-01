@@ -12,19 +12,21 @@ export interface IEV {
     value?: string;
     defaultValue?: string;
 }
-export declare enum EVType {
+export declare type EnvironmentVariableType<T extends string | Number | Boolean | JSONValue> = T extends string ? string | undefined : T extends Number ? Number | undefined : T extends Boolean ? Boolean | undefined : T extends JSONValue ? JSONValue | undefined : string | undefined;
+export declare enum EnvironmentVariableTypes {
     String = 100000000,
     Number = 100000001,
     Boolean = 100000002,
-    JSON = 100000003
+    JSON = 100000003,
+    DataSource = 100000004
 }
 export interface JSONValue {
     [key: string]: string;
 }
 export declare const EnvironmentVariable: {
-    get: (webApi: any, name: string, type: EVType) => Promise<IEV>;
-    getString: (webApi: any, name: string) => Promise<string | undefined>;
-    getJSON: (webApi: any, name: string) => Promise<JSONValue | undefined>;
-    getNumber: (webApi: any, name: string) => Promise<Number | undefined>;
-    getBoolean: (webApi: any, name: string) => Promise<Boolean | undefined>;
+    get: (webApi: any, name: string, type: EnvironmentVariableTypes) => Promise<IEV>;
+    getString: (webApi: any, name: string) => Promise<EnvironmentVariableType<string>>;
+    getJSON: (webApi: any, name: string) => Promise<EnvironmentVariableType<JSONValue>>;
+    getNumber: (webApi: any, name: string) => Promise<EnvironmentVariableType<Number>>;
+    getBoolean: (webApi: any, name: string) => Promise<EnvironmentVariableType<Boolean>>;
 };

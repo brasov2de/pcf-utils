@@ -22,17 +22,39 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.useEnvironmentVariable = void 0;
 const React = __importStar(require("react"));
 const environmentVariable_1 = require("../Utils/environmentVariable");
+/*
 const RequestsMapper = {
-    [environmentVariable_1.EVType.Boolean]: environmentVariable_1.EnvironmentVariable.getBoolean,
-    [environmentVariable_1.EVType.String]: environmentVariable_1.EnvironmentVariable.getString,
-    [environmentVariable_1.EVType.Number]: environmentVariable_1.EnvironmentVariable.getNumber,
-    [environmentVariable_1.EVType.JSON]: environmentVariable_1.EnvironmentVariable.getJSON
-};
-const useEnvironmentVariable = (webApi, name, type) => {
+    [EnvironmentVariableTypes.Boolean] : EnvironmentVariable.getBoolean,
+    [EnvironmentVariableTypes.String] : EnvironmentVariable.getString,
+    [EnvironmentVariableTypes.Number] : EnvironmentVariable.getNumber,
+    [EnvironmentVariableTypes.JSON] : EnvironmentVariable.getJSON,
+    [EnvironmentVariableTypes.DataSource] : EnvironmentVariable.getString
+}*/
+const useEnvironmentVariable = (webAPI, name, type) => {
     const [envVar, setEnvVar] = React.useState();
     React.useEffect(() => {
-        RequestsMapper[type](webApi, name)
-            .then(setEnvVar);
+        if (type === environmentVariable_1.EnvironmentVariableTypes.String) {
+            environmentVariable_1.EnvironmentVariable.getString(webAPI, name).then((val) => setEnvVar(val));
+            return;
+        }
+        if (type === environmentVariable_1.EnvironmentVariableTypes.Number) {
+            environmentVariable_1.EnvironmentVariable.getNumber(webAPI, name).then((val) => setEnvVar(val));
+            return;
+        }
+        if (type === environmentVariable_1.EnvironmentVariableTypes.Boolean) {
+            environmentVariable_1.EnvironmentVariable.getBoolean(webAPI, name).then((val) => setEnvVar(val));
+            return;
+        }
+        if (type === environmentVariable_1.EnvironmentVariableTypes.JSON) {
+            environmentVariable_1.EnvironmentVariable.getJSON(webAPI, name).then((val) => setEnvVar(val));
+            return;
+        }
+        if (type === environmentVariable_1.EnvironmentVariableTypes.DataSource) {
+            environmentVariable_1.EnvironmentVariable.getString(webAPI, name).then((val) => setEnvVar(val));
+            return;
+        }
+        /*    RequestsMapper[_type](webAPI, name).then((val) => setEnvVar(val as EnvironmentVariableType<T>));
+            */
     }, [name]);
     return envVar;
 };

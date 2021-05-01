@@ -1,2 +1,2 @@
-import { EVType, JSONValue } from "../Utils/environmentVariable";
-export declare const useEnvironmentVariable: (webApi: any, name: string, type: EVType) => string | Number | Boolean | JSONValue | undefined;
+import { EnvironmentVariableType, EnvironmentVariableTypes, JSONValue } from "../Utils/environmentVariable";
+export declare const useEnvironmentVariable: <T extends string | Number | Boolean | JSONValue = string>(webAPI: any, name: string, type: EnvironmentVariableTypes) => EnvironmentVariableType<T> | undefined;
