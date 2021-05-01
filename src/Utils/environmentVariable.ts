@@ -18,13 +18,24 @@ export interface IEV{
     defaultValue ?: string;
 }
 
+export type EnvironmentVariableType<T extends string | Number | Boolean | JSONValue> = T extends string 
+            ? string | undefined
+            : T extends Number
+                ? Number  | undefined
+                : T extends Boolean 
+                    ? Boolean | undefined
+                    : T extends JSONValue
+                        ? JSONValue | undefined
+                        : string | undefined;                        
+                        
+
 
 export enum EVType{
     String = 100000000, 
     Number = 100000001, 
     Boolean = 100000002,
-    JSON = 100000003//,
-  //  ConnectionReference=100000004
+    JSON = 100000003,
+    DataSource =100000004
 }
 
 let userId : string | undefined;
@@ -82,12 +93,12 @@ const get = async (webApi : any, name : string, type :EVType): Promise<IEV> => {
     
 }
 
-const getString = async (webApi : any,  name: string): Promise<string | undefined> => {
+const getString = async (webApi : any,  name: string): Promise<EnvironmentVariableType<string>> => {
    const res = await get(webApi, name?.toLowerCase(), EVType.String);
    return res?.value;
 }
 
-const getJSON = async (webApi : any,  name: string): Promise<JSONValue|undefined> => {
+const getJSON = async (webApi : any,  name: string): Promise<EnvironmentVariableType<JSONValue>> => {
     const res = await get(webApi, name?.toLowerCase(), EVType.JSON);
     const val = res?.value;
     try{
@@ -98,13 +109,13 @@ const getJSON = async (webApi : any,  name: string): Promise<JSONValue|undefined
     }
  }
 
-const getNumber = async (webApi : any,  name: string): Promise<Number | undefined> => {
+const getNumber = async (webApi : any,  name: string): Promise< EnvironmentVariableType<Number>> => {
     const res = await get(webApi, name?.toLowerCase(), EVType.Number);
     const val = res?.value;
     return val!=null ? Number.parseFloat(val) : undefined;
  }
 
- const getBoolean = async (webApi : any,  name: string): Promise<Boolean | undefined> => {
+ const getBoolean = async (webApi : any,  name: string): Promise< EnvironmentVariableType<Boolean>> => {
     const res = await get(webApi, name?.toLowerCase(),  EVType.Boolean);
     const val = res?.value;
     return val!=null ? new Boolean(val) : undefined;
