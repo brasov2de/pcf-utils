@@ -1,4 +1,4 @@
-import * as React from "react";
+import {useState, useEffect} from "react";
 import  {EnvironmentVariableType, EnvironmentVariableTypes, getBoolean, getJSON, getNumber, getString, JSONValue} from "../Utils/environmentVariable";
 /*
 const RequestsMapper = {
@@ -10,8 +10,8 @@ const RequestsMapper = {
 }*/
 
 export const useEnvironmentVariable = <T  extends string | Number | Boolean | JSONValue = string >(webAPI: any, name: string, type: EnvironmentVariableTypes)=> {  
-  const [envVar, setEnvVar] = React.useState<EnvironmentVariableType<T> | undefined >();
-    React.useEffect(() => {       
+  const [envVar, setEnvVar] = useState<EnvironmentVariableType<T> | undefined >();
+    useEffect(() => {       
       if(type===EnvironmentVariableTypes.String){
         getString(webAPI, name).then((val) => setEnvVar(val as EnvironmentVariableType<T>));
         return;
@@ -38,4 +38,5 @@ export const useEnvironmentVariable = <T  extends string | Number | Boolean | JS
 
     return envVar;
 }
+
 

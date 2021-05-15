@@ -23,6 +23,7 @@ export declare enum EnvironmentVariableTypes {
 export interface JSONValue {
     [key: string]: string;
 }
+export declare const clearCache: () => void;
 export declare const get: (webApi: any, name: string, type: EnvironmentVariableTypes) => Promise<IEV>;
 export declare const getString: (webApi: any, name: string) => Promise<EnvironmentVariableType<string>>;
 export declare const getJSON: (webApi: any, name: string) => Promise<EnvironmentVariableType<JSONValue>>;

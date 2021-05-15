@@ -1,27 +1,8 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.useEnvironmentVariable = void 0;
-const React = __importStar(require("react"));
-const environmentVariable_1 = require("../Utils/environmentVariable");
+var react_1 = require("react");
+var environmentVariable_1 = require("../Utils/environmentVariable");
 /*
 const RequestsMapper = {
     [EnvironmentVariableTypes.Boolean] : EnvironmentVariable.getBoolean,
@@ -30,27 +11,27 @@ const RequestsMapper = {
     [EnvironmentVariableTypes.JSON] : EnvironmentVariable.getJSON,
     [EnvironmentVariableTypes.DataSource] : EnvironmentVariable.getString
 }*/
-const useEnvironmentVariable = (webAPI, name, type) => {
-    const [envVar, setEnvVar] = React.useState();
-    React.useEffect(() => {
+var useEnvironmentVariable = function (webAPI, name, type) {
+    var _a = react_1.useState(), envVar = _a[0], setEnvVar = _a[1];
+    react_1.useEffect(function () {
         if (type === environmentVariable_1.EnvironmentVariableTypes.String) {
-            environmentVariable_1.getString(webAPI, name).then((val) => setEnvVar(val));
+            environmentVariable_1.getString(webAPI, name).then(function (val) { return setEnvVar(val); });
             return;
         }
         if (type === environmentVariable_1.EnvironmentVariableTypes.Number) {
-            environmentVariable_1.getNumber(webAPI, name).then((val) => setEnvVar(val));
+            environmentVariable_1.getNumber(webAPI, name).then(function (val) { return setEnvVar(val); });
             return;
         }
         if (type === environmentVariable_1.EnvironmentVariableTypes.Boolean) {
-            environmentVariable_1.getBoolean(webAPI, name).then((val) => setEnvVar(val));
+            environmentVariable_1.getBoolean(webAPI, name).then(function (val) { return setEnvVar(val); });
             return;
         }
         if (type === environmentVariable_1.EnvironmentVariableTypes.JSON) {
-            environmentVariable_1.getJSON(webAPI, name).then((val) => setEnvVar(val));
+            environmentVariable_1.getJSON(webAPI, name).then(function (val) { return setEnvVar(val); });
             return;
         }
         if (type === environmentVariable_1.EnvironmentVariableTypes.DataSource) {
-            environmentVariable_1.getString(webAPI, name).then((val) => setEnvVar(val));
+            environmentVariable_1.getString(webAPI, name).then(function (val) { return setEnvVar(val); });
             return;
         }
         /*    RequestsMapper[_type](webAPI, name).then((val) => setEnvVar(val as EnvironmentVariableType<T>));

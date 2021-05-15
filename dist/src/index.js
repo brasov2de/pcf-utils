@@ -12,3 +12,4 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./Utils/environmentVariable"), exports);
 __exportStar(require("./Hooks/useEnvironmentVariable"), exports);
+__exportStar(require("./Hooks/useResourceImage"), exports);
