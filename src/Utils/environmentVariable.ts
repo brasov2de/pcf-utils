@@ -38,7 +38,6 @@ export enum EnvironmentVariableTypes{
     DataSource =100000004
 }
 
-let userId : string | undefined;
 
 export interface JSONValue {
     [key: string]: string;
@@ -75,9 +74,9 @@ export const get = async (webApi : any, name : string, type :EnvironmentVariable
         "&$expand=environmentvariabledefinition_environmentvariablevalue($select=value)", 
         filter !=="" ? `&$filter=${filter}` : ""
     ].join("");
-    //console.log(query);
-    const results = await webApi.retrieveMultipleRecords("environmentvariabledefinition", query);
-    const ev : IEnvVar_definition = results.entities[0];
+    //console.log(query);    
+    const results = await webApi.retrieveMultipleRecords("environmentvariabledefinition", query).catch(console.error);        
+    const ev : IEnvVar_definition = results?.entities[0];
     if(ev==null) return {
         value : undefined, 
         defaultValue : undefined
@@ -90,8 +89,9 @@ export const get = async (webApi : any, name : string, type :EnvironmentVariable
         defaultValue : defaultValue,      
     };
     cache[name] = JSON.stringify(ret);
-    
-    sessionStorage.setItem(`[${STORAGE_PREFIX}] ${name}`, JSON.stringify(ret));
+    if(name!=null && name!="" && ret!=null){
+        sessionStorage.setItem(`[${STORAGE_PREFIX}] ${name}`, JSON.stringify(ret));    
+    }
     
     return ret;      
     

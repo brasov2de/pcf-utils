@@ -1,13 +1,65 @@
 {
   "name": "@dianamics/pcf-utils",
-  "version": "0.0.9",
-  "description": "Utilities and React Hooks for building PCF for PowerApps based on React(but not only)",
+  "version": "0.0.16",
+  "license": "MIT",  
+  "author": "DianaBirkelbach",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "type": "module",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
   "scripts": {
-    "build": "tsc",
-    "test": "tsc & jest /src/"
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test --passWithNoTests",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build",
+    "size": "size-limit",
+    "analyze": "size-limit --why"
+  }, 
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  
+  "module": "dist/pcf-utils.esm.js",
+  "size-limit": [
+    {
+      "path": "dist/pcf-utils.cjs.production.min.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/pcf-utils.esm.js",
+      "limit": "10 KB"
+    }
+  ],
+  "peerDependencies": {
+    "react": ">=16", 
+    "@types/powerapps-component-framework": "^1.3.0", 
+    "@types/xrm": "^9.0.39"
+  },
+  "devDependencies": {
+    "@size-limit/preset-small-lib": "^4.10.2",
+    "@types/react": "^17.0.5",
+    "@types/react-dom": "^17.0.5",
+    "husky": "^6.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "size-limit": "^4.10.2",
+    "tsdx": "^0.14.1",
+    "tslib": "^2.2.0",
+    "typescript": "^4.2.4"
   },
   "repository": {
     "type": "git",
@@ -16,28 +68,6 @@
   "keywords": [
     "pcf",
     "react",
-    "hooks",
-    "fluentui"
-  ],
-  "author": "DianaBirkelbach",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/jest": "^26.0.21",
-    "jest": "^26.6.3",
-    "ts-jest": "^26.5.4"  
-  },
-  "dependencies": {   
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2"
-  },
-  "peerDependencies": {
-    "@fluentui/react": "^8.11.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2", 
-    "typescript": "^4.2.3",
-    "@types/powerapps-component-framework": "^1.3.0",
-    "@types/react": "^17.0.3",
-    "@types/react-dom": "^17.0.5",
-    "@types/xrm": "^9.0.39"
-  }
+    "hooks"  
+  ]
 }
