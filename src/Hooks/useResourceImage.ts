@@ -1,14 +1,23 @@
 import {useState, useEffect } from 'react';
 
-export const useResourceImage = (resources: any, name: string, fileType : string ) => { 
-    const [imageUrl, setImageUrl ] = useState<string | undefined>();
+export const useResourceImage = (resources: any, resourceName: string, fileType : string ) => { 
+    const [imageSrc, setImageSrc ] = useState<string | undefined>();
+    const [isLoading, setIsLoading] = useState<boolean|undefined>();
+    const [errorMessage, setErrorMessage] = useState<string|undefined>();
+
     useEffect(() => {
-        if(name==null || name ==="") {
+        if(resourceName==null || resourceName ==="") {
             return;
         }
-        resources.getResource(name, (fileContent : string)=> {
-            setImageUrl(`data:image/${fileType};base64,${fileContent}`);
-        }, console.error)
-    }, [name, fileType]);
-    return imageUrl;
+        setIsLoading(true);
+        resources.getResource(resourceName, (fileContent : string)=> {
+            setImageSrc(`data:image/${fileType};base64,${fileContent}`);
+            setIsLoading(false);
+        }, (e:any)=> {
+            console.error(e);
+            setErrorMessage(e?.message ?? e);
+        })
+    }, [resourceName, fileType]);
+
+    return {src: imageSrc, isLoading, errorMessage};
 }
