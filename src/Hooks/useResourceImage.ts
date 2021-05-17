@@ -11,7 +11,7 @@ export const useResourceImage = (resources: any, resourceName: string, fileType 
         }
         setIsLoading(true);
         resources.getResource(resourceName, (fileContent : string)=> {
-            setImageSrc(`data:image/${fileType};base64,${fileContent}`);
+            setImageSrc(`data:image/${fileType==="svg"?"svg+xml":fileType};base64,${fileContent}`);
             setIsLoading(false);
         }, (e:any)=> {
             console.error(e);
