@@ -1,6 +1,6 @@
 {
   "name": "@dianamics/pcf-utils",
-  "version": "0.0.31",
+  "version": "0.0.32",
   "license": "MIT",
   "author": "DianaBirkelbach",
   "main": "dist/index.js",

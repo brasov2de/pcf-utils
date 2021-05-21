@@ -6,6 +6,16 @@ export interface IEnvVar_value{
     value ?: any;   
 }
 
+const settings={
+    useStorageCache : true,
+    STORAGE_PREFIX: "Dianamics.EnvironmentVariables"
+}
+
+export function setupEnvironmentVariable(useStorageCache: boolean, storagePrefix?: string){
+    settings.useStorageCache = useStorageCache;
+    settings.STORAGE_PREFIX = storagePrefix ?? settings.STORAGE_PREFIX;
+}
+
 export interface IEnvVar_definition{
     defaultvalue ?: any;  
     environmentvariabledefinition_environmentvariablevalue: IEnvVar_value[];
@@ -52,13 +62,13 @@ export const clearCache = () => {
     cache ={};
 }
 
-export const get = async (webApi : any, name : string, type :EnvironmentVariableTypes, useStorageCache: boolean = true): Promise<IEV> => {    
+export const get = async (webApi : any, name : string, type :EnvironmentVariableTypes): Promise<IEV> => {    
         
    let val : string | null | undefined = cache[name]; 
    if(val!=null){
         return Promise.resolve(JSON.parse(val));
     }
-    if(useStorageCache===true){
+    if(settings.useStorageCache===true){
         val = sessionStorage.getItem(`[${STORAGE_PREFIX}] ${name}`);
         if(val!=null){
             return Promise.resolve(JSON.parse(val));
@@ -91,7 +101,7 @@ export const get = async (webApi : any, name : string, type :EnvironmentVariable
         defaultValue : defaultValue,      
     };
     cache[name] = JSON.stringify(ret);
-    if(name!=null && name!="" && ret!=null && useStorageCache===true){
+    if(name!=null && name!="" && ret!=null && settings.useStorageCache===true){
         sessionStorage.setItem(`[${STORAGE_PREFIX}] ${name}`, JSON.stringify(ret));    
     }
     
@@ -99,13 +109,13 @@ export const get = async (webApi : any, name : string, type :EnvironmentVariable
     
 }
 
-export const getString = async (webApi : any,  name: string, useStorageCache: boolean = true): Promise<EnvironmentVariableType<string>> => {
-   const res = await get(webApi, name?.toLowerCase(), EnvironmentVariableTypes.String, useStorageCache);
+export const getString = async (webApi : any,  name: string): Promise<EnvironmentVariableType<string>> => {
+   const res = await get(webApi, name?.toLowerCase(), EnvironmentVariableTypes.String);
    return res?.value;
 }
 
-export const getJSON = async (webApi : any,  name: string, useStorageCache: boolean = true): Promise<EnvironmentVariableType<JSONValue>> => {
-    const res = await get(webApi, name?.toLowerCase(), EnvironmentVariableTypes.JSON, useStorageCache);
+export const getJSON = async (webApi : any,  name: string): Promise<EnvironmentVariableType<JSONValue>> => {
+    const res = await get(webApi, name?.toLowerCase(), EnvironmentVariableTypes.JSON);
     const val = res?.value;
     try{
     return val!=null ? JSON.parse(val) : undefined;
@@ -115,14 +125,14 @@ export const getJSON = async (webApi : any,  name: string, useStorageCache: bool
     }
  }
 
-export const getNumber = async (webApi : any,  name: string, useStorageCache: boolean = true): Promise< EnvironmentVariableType<Number>> => {
-    const res = await get(webApi, name?.toLowerCase(), EnvironmentVariableTypes.Number, useStorageCache);
+export const getNumber = async (webApi : any,  name: string): Promise< EnvironmentVariableType<Number>> => {
+    const res = await get(webApi, name?.toLowerCase(), EnvironmentVariableTypes.Number);
     const val = res?.value;
     return val!=null ? Number.parseFloat(val) : undefined;
  }
 
- export const getBoolean = async (webApi : any,  name: string, useStorageCache: boolean = true): Promise< EnvironmentVariableType<Boolean>> => {
-    const res = await get(webApi, name?.toLowerCase(),  EnvironmentVariableTypes.Boolean, useStorageCache);
+ export const getBoolean = async (webApi : any,  name: string): Promise< EnvironmentVariableType<Boolean>> => {
+    const res = await get(webApi, name?.toLowerCase(),  EnvironmentVariableTypes.Boolean);
     const val = res?.value;
     return val!=null ? new Boolean(val) : undefined;
  }

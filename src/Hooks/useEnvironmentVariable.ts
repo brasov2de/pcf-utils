@@ -9,7 +9,7 @@ const RequestsMapper = {
     [EnvironmentVariableTypes.DataSource] : EnvironmentVariable.getString
 }*/
 
-export const useEnvironmentVariable = <T  extends string | Number | Boolean | JSONValue = string >(webAPI: any, name: string, type: EnvironmentVariableTypes, useStorageCache: boolean = true)=> {  
+export const useEnvironmentVariable = <T  extends string | Number | Boolean | JSONValue = string >(webAPI: any, name: string, type: EnvironmentVariableTypes)=> {  
   const [envVar, setEnvVar] = useState<EnvironmentVariableType<T> | undefined >();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string|undefined>();
@@ -26,23 +26,23 @@ export const useEnvironmentVariable = <T  extends string | Number | Boolean | JS
       setIsLoading(true);    
       setErrorMessage(undefined);
       if(type===EnvironmentVariableTypes.String){
-        getString(webAPI, name, useStorageCache).then((val) => setEnvVar(val as EnvironmentVariableType<T>)).then(success).catch(fail);
+        getString(webAPI, name).then((val) => setEnvVar(val as EnvironmentVariableType<T>)).then(success).catch(fail);
         return;
       }
       if(type===EnvironmentVariableTypes.Number){
-        getNumber(webAPI, name, useStorageCache).then((val) => setEnvVar(val as EnvironmentVariableType<T>)).then(success).catch(fail);
+        getNumber(webAPI, name).then((val) => setEnvVar(val as EnvironmentVariableType<T>)).then(success).catch(fail);
         return;
       }
       if(type===EnvironmentVariableTypes.Boolean){
-        getBoolean(webAPI, name, useStorageCache).then((val) => setEnvVar(val as EnvironmentVariableType<T>)).then(success).catch(fail);
+        getBoolean(webAPI, name).then((val) => setEnvVar(val as EnvironmentVariableType<T>)).then(success).catch(fail);
         return;
       }
       if(type===EnvironmentVariableTypes.JSON){
-        getJSON(webAPI, name, useStorageCache).then((val) => setEnvVar(val as EnvironmentVariableType<T>)).then(success).catch(fail);
+        getJSON(webAPI, name).then((val) => setEnvVar(val as EnvironmentVariableType<T>)).then(success).catch(fail);
         return;
       }
       if(type===EnvironmentVariableTypes.DataSource){
-        getString(webAPI, name, useStorageCache).then((val) => setEnvVar(val as EnvironmentVariableType<T>)).then(success).catch(fail);
+        getString(webAPI, name).then((val) => setEnvVar(val as EnvironmentVariableType<T>)).then(success).catch(fail);
         return;
       } 
     /*    RequestsMapper[_type](webAPI, name).then((val) => setEnvVar(val as EnvironmentVariableType<T>));
