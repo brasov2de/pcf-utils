@@ -1,160 +1,140 @@
-# TSDX React User Guide
+# @dianamics\pcf-utils
 
-Congrats! You just saved yourself hours of work by bootstrapping this project with TSDX. Let’s get you oriented with what’s here and how to use it.
+This npm package is designed for Power Apps Component Framework (PCF). It provides utilities for working with PCF, most of them are React Hooks, which needs to be used in function components.
 
-> This TSDX setup is meant for developing React component libraries (not apps!) that can be published to NPM. If you’re looking to build a React-based app, you should use `create-react-app`, `razzle`, `nextjs`, `gatsby`, or `react-static`.
+## How to install
 
-> If you’re new to TypeScript and React, checkout [this handy cheatsheet](https://github.com/sw-yx/react-typescript-cheatsheet/)
+```
+npm install @dianamics/pcf-utils
+```
+# Content 
 
-## Commands
+## Utils\environmentVariable
 
-TSDX scaffolds your new library inside `/src`, and also sets up a [Parcel-based](https://parceljs.org) playground for it inside `/example`.
+### Loading value with default value
+The purpose of this utility is loading and caching the environmentVariables from Dataverse. It will make the request. It will return the value defined for the environment variable. If no value is found, it will return the default value set in Dataverse.
 
-The recommended workflow is to run TSDX in one terminal:
+### Type conversion
 
-```bash
-npm start # or yarn start
+Another advantage is the automatically conversion to the types: for instance a JSON env var will return an object, a number env var will return a Number, aso.
+
+### Caching
+
+Another benefit of this environment variables utility, is the possibility to cache the value. It will cache the content, avoiding a second requests. It will also save the retrieved values in sessionStorage. This way, when the user navigates inside the application, the values will be returned directly from the storage. If that is not possible, will make another request.
+
+If you don't wish a caching, set this in the code using
+```javascript
+setupEnvironmentVariable(false);
+```
+The default is true.
+You could also set the starting part of the sessionStorage key:
+```javascript
+setupEnvironmentVariable(false, "MyAwesomeRoot.EnvironmentVariable");
+```
+The default is "Dianamics.EnvironmentVariables"
+The sessionStorage key will add the name of the session variable to your key.
+
+
+
+## Hooks\useEnvironmentVariable
+
+Making use of environment variable utility, this is a custom React Hook, so it can be used inside React function components.
+Example:
+
+```javascript
+import {useEnvironmentVariable} from "@dianamics/pcf-utils";
+
+export const PCFComponent({webAPI}) : JSX.Element => {
+    const {value, isLoading, errorMessage} = useEnvironmentVariable<string>(webAPI, "orb_chosedImage", EnvironmentVariableTypes.String);  
+
+    //or, if you need more env vars inside the same component
+    const secondEnvVar = useEnvironmentVariable<string>(webAPI, "orb_secondName", EnvironmentVariableTypes.String); 
+    
+}
+```
+The "webAPI" is the "context.webAPI" property from PCFs. Remember to decalre the webAPI in your PCF manifest 
+```xml
+<feature-usage>        
+    <uses-feature name="WebAPI" required="true" />
+</feature-usage>
 ```
 
-This builds to `/dist` and runs the project in watch mode so any edits you save inside `src` causes a rebuild to `/dist`.
+## Hooks\useResourceImage & useResourceImages
 
-Then run the example inside another:
+This custom Hook is designed to load resources from your PCF.
+In order to work, you need first to declare the images in the manifest. Also the utility feature is required.
 
-```bash
-cd example
-npm i # or yarn to install dependencies
-npm start # or yarn start
+Example: 
+```xml
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control ...>   
+     ...    
+    <resources>
+      <code path="index.ts" order="1"/>
+      <img path="images/skating/s1.png"/> 
+      <img path="images/skating/s2.png"/> 
+      <img path="images/skating/s3.png"/> 
+      <img path="images/My.svg"/>       
+    </resources>
+     <feature-usage>    
+      <uses-feature name="Utility" required="true" />      
+    </feature-usage>    
+  </control>
+</manifest>
 ```
 
-The default example imports and live reloads whatever is in `/dist`, so if you are seeing an out of date component, make sure TSDX is running in watch mode like we recommend above. **No symlinking required**, we use [Parcel's aliasing](https://parceljs.org/module_resolution.html#aliases).
+The return of this custom hook contains {src, isLoading, errorMessage}.
+Example to get the content of a image in your react function component:
+```javascript
+import {useResourceImage} from "@dianamics/pcf-utils";
 
-To do a one-off build, use `npm run build` or `yarn build`.
-
-To run tests, use `npm test` or `yarn test`.
-
-## Configuration
-
-Code quality is set up for you with `prettier`, `husky`, and `lint-staged`. Adjust the respective fields in `package.json` accordingly.
-
-### Jest
-
-Jest tests are set up to run with `npm test` or `yarn test`.
-
-### Bundle analysis
-
-Calculates the real cost of your library using [size-limit](https://github.com/ai/size-limit) with `npm run size` and visulize it with `npm run analyze`.
-
-#### Setup Files
-
-This is the folder structure we set up for you:
-
-```txt
-/example
-  index.html
-  index.tsx       # test your component here in a demo app
-  package.json
-  tsconfig.json
-/src
-  index.tsx       # EDIT THIS
-/test
-  blah.test.tsx   # EDIT THIS
-.gitignore
-package.json
-README.md         # EDIT THIS
-tsconfig.json
+export const PCFComponent({resources}) : JSX.Element => {
+   const mySVG = useResourceImage(resources, "images/My.svg", "svg");
+   return <img src={mySVG.src}>
+}
 ```
+The "resources" is provided by pcf (context.resources).
 
-#### React Testing Library
+In case you need to load a bunch of images, you can use "useResourceImages". They only need to be of the same type.
+The return of this hook is an array of strings, with all the image content (without indicators of loading or error messages). The error messages will be shown in the console.
+Example:
+```javascript
+import {useResourceImages} from "@dianamics/pcf-utils";
 
-We do not set up `react-testing-library` for you yet, we welcome contributions and documentation on this.
-
-### Rollup
-
-TSDX uses [Rollup](https://rollupjs.org) as a bundler and generates multiple rollup configs for various module formats and build settings. See [Optimizations](#optimizations) for details.
-
-### TypeScript
-
-`tsconfig.json` is set up to interpret `dom` and `esnext` types, as well as `react` for `jsx`. Adjust according to your needs.
-
-## Continuous Integration
-
-### GitHub Actions
-
-Two actions are added by default:
-
-- `main` which installs deps w/ cache, lints, tests, and builds on all pushes against a Node and OS matrix
-- `size` which comments cost comparison of your library on every pull request using [`size-limit`](https://github.com/ai/size-limit)
-
-## Optimizations
-
-Please see the main `tsdx` [optimizations docs](https://github.com/palmerhq/tsdx#optimizations). In particular, know that you can take advantage of development-only optimizations:
-
-```js
-// ./types/index.d.ts
-declare var __DEV__: boolean;
-
-// inside your code...
-if (__DEV__) {
-  console.log('foo');
+export const PCFComponent({webAPI}) : JSX.Element => {
+   const images = const images = useResourceImages(resources, ["images/skating/s1.png", "images/skating/s2.png", "images/skating/s3.png"], "png");
+   return (<div>
+    {images.map((img) => <img src={img}/>)}
+   </div>)
 }
 ```
 
-You can also choose to install and use [invariant](https://github.com/palmerhq/tsdx#invariant) and [warning](https://github.com/palmerhq/tsdx#warning) functions.
 
-## Module Formats
+## Hooks\Dataset\usePaging
 
-CJS, ESModules, and UMD module formats are supported.
+This custom hook is supposed to be used for PCFs of type dataset.
+It makes it easier to keep track of the current page, first record on the page, last one and there are some navigation methods.
 
-The appropriate paths are configured in `package.json` and `dist/index.js` accordingly. Please report if any issues are found.
+```javascript
+import {usePaging} from "@dianamics/pcf-utils";
+export const PCFComponent({dataset}) : JSX.Element => {
+    const { currentPage, moveNext, movePrevious} = usePaging(dataset);
+    //currentPage, firstItemNumber, lastItemNumber, totalRecords
+    //moveToFirst,  movePrevious, moveNext
+        return (<div>                      
+            <button onClick={movePrevious}>Prev</button>
+            Page:{currentPage}           
+            <button onClick={moveNext}>Next</button> 
+        </div>
+        )
+}
 
-## Deploying the Example Playground
-
-The Playground is just a simple [Parcel](https://parceljs.org) app, you can deploy it anywhere you would normally deploy that. Here are some guidelines for **manually** deploying with the Netlify CLI (`npm i -g netlify-cli`):
-
-```bash
-cd example # if not already in the example folder
-npm run build # builds to dist
-netlify deploy # deploy the dist folder
 ```
 
-Alternatively, if you already have a git repo connected, you can set up continuous deployment with Netlify:
+## More to come...
 
-```bash
-netlify init
-# build command: yarn build && cd example && yarn && yarn build
-# directory to deploy: example/dist
-# pick yes for netlify.toml
-```
+## Making of
+This package was made using the tsdx [readme tsdx](./README_tsdx.md)
 
-## Named Exports
 
-Per Palmer Group guidelines, [always use named exports.](https://github.com/palmerhq/typescript#exports) Code split inside your React app instead of your React library.
-
-## Including Styles
-
-There are many ways to ship styles, including with CSS-in-JS. TSDX has no opinion on this, configure how you like.
-
-For vanilla CSS, you can include it at the root directory and add it to the `files` section in your `package.json`, so that it can be imported separately by your users and run through their bundler's loader.
-
-## Publishing to NPM
-
-We recommend using [np](https://github.com/sindresorhus/np).
-
-## Usage with Lerna
-
-When creating a new package with TSDX within a project set up with Lerna, you might encounter a `Cannot resolve dependency` error when trying to run the `example` project. To fix that you will need to make changes to the `package.json` file _inside the `example` directory_.
-
-The problem is that due to the nature of how dependencies are installed in Lerna projects, the aliases in the example project's `package.json` might not point to the right place, as those dependencies might have been installed in the root of your Lerna project.
-
-Change the `alias` to point to where those packages are actually installed. This depends on the directory structure of your Lerna project, so the actual path might be different from the diff below.
-
-```diff
-   "alias": {
--    "react": "../node_modules/react",
--    "react-dom": "../node_modules/react-dom"
-+    "react": "../../../node_modules/react",
-+    "react-dom": "../../../node_modules/react-dom"
-   },
-```
-
-An alternative to fixing this problem would be to remove aliases altogether and define the dependencies referenced as aliases as dev dependencies instead. [However, that might cause other problems.](https://github.com/palmerhq/tsdx/issues/64)
