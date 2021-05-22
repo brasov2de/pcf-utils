@@ -11,7 +11,7 @@ const RequestsMapper = {
 
 export interface TypesMap {
   [EnvironmentVariableTypes.Boolean]: Boolean;
-  [EnvironmentVariableTypes.DataSource]: JSONValue;
+  [EnvironmentVariableTypes.DataSource]: string;
   [EnvironmentVariableTypes.JSON]: JSONValue;
   [EnvironmentVariableTypes.Number]: Number;
   [EnvironmentVariableTypes.String]: string;
