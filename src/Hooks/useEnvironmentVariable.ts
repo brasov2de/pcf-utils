@@ -9,7 +9,16 @@ const RequestsMapper = {
     [EnvironmentVariableTypes.DataSource] : EnvironmentVariable.getString
 }*/
 
-export const useEnvironmentVariable = <T  extends string | Number | Boolean | JSONValue = string >(webAPI: any, name: string, type: EnvironmentVariableTypes)=> {  
+export interface TypesMap {
+  [EnvironmentVariableTypes.Boolean]: Boolean;
+  [EnvironmentVariableTypes.DataSource]: string;
+  [EnvironmentVariableTypes.JSON]: JSONValue;
+  [EnvironmentVariableTypes.Number]: Number;
+  [EnvironmentVariableTypes.String]: string;
+}
+
+export const useEnvironmentVariable = 
+<TInput extends EnvironmentVariableTypes, T extends TypesMap[TInput]>(webAPI: any, name: string, type: TInput)=> {  
   const [envVar, setEnvVar] = useState<EnvironmentVariableType<T> | undefined >();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string|undefined>();
